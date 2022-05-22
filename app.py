@@ -1,13 +1,10 @@
-import os
-
-# from cs50 import SQL
 import sqlite3
 from inventory_manager import InventoryManager
 con = sqlite3.connect('inventory.db', check_same_thread=False)
 con.isolation_level = None
 db = con.cursor()
 
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request
 
 
 inv_manager = InventoryManager(db)
@@ -16,10 +13,6 @@ app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-
-# Configure CS50 Library to use SQLite database
-# db = SQL("sqlite:///inventory.db")
-
 
 @app.after_request
 def after_request(response):
@@ -53,7 +46,7 @@ def archive():
     id = request.form.get("id")
     comment = request.form.get("comment")
     if id:
-        db.execute("UPDATE inventory SET archive = ?, comment = ? WHERE id = ?", (0, comment, id))
+        inv_manager.archive_item(comment, id)
     return redirect("/")
 
 @app.route("/edit", methods=["POST"])
@@ -66,9 +59,11 @@ def edit():
     current_item = inv_manager.get_item_by_id(id)
 
     if id and (item or ref or quantity):
-        db.execute(
-            "UPDATE inventory SET item = ?, ref = ?, quantity = ? WHERE id = ?",
-            (item or current_item['item'], ref or current_item['ref'], quantity or current_item['quantity'], id)
+        inv_manager.update_item(
+            id,
+            item or current_item.item,
+            ref or current_item.ref,
+            quantity or current_item.quantity,
         )
     return redirect("/")
 
@@ -82,7 +77,7 @@ def unarchive():
             inventory = inv_manager.get_archived_inventory()
             return render_template("archive.html", inventory=inventory)
 
-        db.execute("UPDATE inventory SET archive = ?, quantity = ? WHERE id = ?", (1, quantity, id))
+        inv_manager.unarchive_item(quantity, id)
         return redirect("/unarchive")
 
     else:
@@ -99,5 +94,5 @@ def archivelist():
 def permadelete():
     id = request.form.get("id")
     if id:
-        db.execute("DELETE FROM inventory WHERE id = ?", id)
+        inv_manager.delete_item(id)
     return redirect("/unarchive")
