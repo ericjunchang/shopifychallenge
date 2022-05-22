@@ -93,3 +93,6 @@ def permadelete():
     if id:
         inv_manager.delete_item(id)
     return redirect("/unarchive")
+
+if __name__ == "__main__":  # Makes sure this is the main process
+  app.run(host='0.0.0.0', port=8080)

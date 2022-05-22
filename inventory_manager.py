@@ -33,7 +33,7 @@ class InventoryManager:
         return InventoryItem(*r)
 
     def delete_item(self, id):
-        self._db.execute("DELETE FROM inventory WHERE id = ?", id)
+        self._db.execute("DELETE FROM inventory WHERE id = ?", (id,))
 
     def get_archived_inventory(self):
         results = self._db.execute("SELECT * FROM inventory WHERE archive = ?", (self.ARCHIVED,))
