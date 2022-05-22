@@ -11,9 +11,6 @@ inv_manager = InventoryManager(db)
 # Configure application
 app = Flask(__name__)
 
-# Ensure templates are auto-reloaded
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
