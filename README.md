@@ -10,7 +10,7 @@ pip3 install -r requirements.txt
 flask run -p 8080 --host=0.0.0.0
 ```
 On repl.it
-repl.it link: https://shopifychallenge-2.ericjunchang.repl.co/
+repl.it link: https://shopifychallenge-backendchallenge-ericjunchang.ericjunchang.repl.co
 
 ## How to use the app?
 On the main landing page, you can first add an item into the inventory by adding in the name of the item, the item's reference number and the quantity of said item. If one or more pieces of information is missing, the item will not be added. Once the item is added, you can edit the item's name, reference number or quantity. It is also possible to archive (delete) the item with or without a comment. This will move the item from the inventory list to the archived inventory list which can be accessed by clicking on the Archived Inventory List button on the top right corner of the homepage. 
