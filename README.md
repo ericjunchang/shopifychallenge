@@ -1,4 +1,4 @@
-# shopifychallenge
+# shopifychallenge including deletion, deletion comments and undeletion
 Shopify Backend Developer Internship Challenge
 
 Backend challenge from Shopify using Flask, Python, HTML/CSS and some JavaScript. Enjoy!
